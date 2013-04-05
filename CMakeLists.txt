@@ -23,3 +23,8 @@ include_directories (
 
 add_subdirectory (modules)
 add_subdirectory (core)
+
+INSTALL_TARGETS (/usr/bin core/bgdc/bgdc)
+INSTALL_TARGETS (/usr/bin core/bgdi/bgdi)
+INSTALL_TARGETS (/usr/lib core/bgdrtm/libbgdrtm.so)
+INSTALL_TARGETS (/usr/lib modules/*.so)
