@@ -24,7 +24,13 @@ include_directories (
 add_subdirectory (modules)
 add_subdirectory (core)
 
-INSTALL_TARGETS ($(TARGET_DIR)/usr/bin $(@D)core/bgdc/bgdc)
-INSTALL_TARGETS ($(TARGET_DIR)/usr/bin $(@D)core/bgdi/bgdi)
-INSTALL_TARGETS ($(TARGET_DIR)/usr/lib $(@D)core/bgdrtm/libbgdrtm.so)
-INSTALL_TARGETS ($(TARGET_DIR)/usr/lib $(@D)modules/*.so)
+INSTALL(
+  TARGETS
+    core/bgdc/bgdc
+    core/bgdi/bgdi
+    core/bgdrtm/libbgdrtm.so
+    modules/*.so
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
