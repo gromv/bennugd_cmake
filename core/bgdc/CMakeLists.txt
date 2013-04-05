@@ -41,3 +41,10 @@ target_link_libraries (
   dl
   crypto
 )
+
+install (
+  TARGETS
+  bgdc
+  DESTINATION
+  /usr/bin
+)

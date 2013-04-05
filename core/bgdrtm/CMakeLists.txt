@@ -22,3 +22,10 @@ add_library (
   ../common/xctype.c
   ../common/debug.c
 ) 
+
+install (
+  TARGETS
+  bgrtm
+  DESTINATION
+  /usr/lib
+)

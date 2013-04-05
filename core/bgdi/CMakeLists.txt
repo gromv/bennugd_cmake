@@ -21,3 +21,10 @@ target_link_libraries (
   z
   m
 )
+
+install (
+  TARGETS
+  bgdi
+  DESTINATION
+  /usr/bin
+)

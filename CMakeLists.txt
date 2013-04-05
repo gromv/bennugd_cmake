@@ -23,14 +23,3 @@ include_directories (
 
 add_subdirectory (modules)
 add_subdirectory (core)
-
-INSTALL(
-  TARGETS
-    core/bgdc
-    core/bgdi
-    core/bgdrtm
-    modules
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-)
