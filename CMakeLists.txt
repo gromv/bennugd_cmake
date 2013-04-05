@@ -26,10 +26,10 @@ add_subdirectory (core)
 
 INSTALL(
   TARGETS
-    core/bgdc/bgdc
-    core/bgdi/bgdi
-    core/bgdrtm/libbgdrtm.so
-    modules/*.so
+    core/bgdc
+    core/bgdi
+    core/bgdrtm
+    modules
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
