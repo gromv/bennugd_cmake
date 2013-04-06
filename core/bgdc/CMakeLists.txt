@@ -30,11 +30,6 @@ add_executable (
   ../common/xctype.c
 )
 
-#target_link_libraries (
-#  bgdi
-#  ${CMAKE_DL_LIBS}
-#)
-
 target_link_libraries (
   bgdc
   z
