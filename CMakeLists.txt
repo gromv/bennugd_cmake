@@ -4,10 +4,10 @@ project (BennuGD)
 add_definitions (-DVERSION="1.0.0")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  add_definitions (-DTARGET_LINUX  )
+  add_definitions (-DTARGET_LINUX)
 endif()
 
-set (INTERPRETER_ONLY)
+set (INTERPRETER_ONLY True)
 set (MODULES "STATIC")
 add_definitions (-D__STATIC__)
 
