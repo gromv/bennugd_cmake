@@ -16,6 +16,7 @@ set (CMAKE_C_FLAGS "-Wall ${CMAKE_C_FLAGS}")
 
 find_package(SDL REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 include_directories (
   ${SDL_INCLUDE_DIR}
