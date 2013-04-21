@@ -133,16 +133,16 @@ enum {
 
 /* Locals */
 enum {
-    M7_ANGLE = 0,
-    M7_CNUMBER,
-    M7_COORDX,
-    M7_COORDY,
-    M7_CTYPE,
+    ANGLE = 0,
+    CNUMBER,
+    COORDX,
+    COORDY,
+    CTYPE,
     DISTANCE_1,
-    M7_GRAPHSIZE,
+    GRAPHSIZE,
     HEIGHT,
-    M7_STATUS,
-    M7_RESOLUTION
+    STATUS,
+    RESOLUTION
 };
 
 /* --------------------------------------------------------------------------- */
@@ -483,15 +483,15 @@ static void draw_mode7( int n, REGION * clip )
     camera = instance_get( dat->camera_id ) ;
     if ( !camera ) return ;
 
-    angle = LOCINT32( mod_m7, camera, M7_ANGLE ) ;
+    angle = LOCINT32( mod_m7, camera, ANGLE ) ;
 
     cosa = fcos( -angle ) ;
     sina = fsin( -angle ) ;
 
     /* Averigua la posición de inicio */
 
-    camera_x = itofix( LOCINT32( mod_m7, camera, M7_COORDX ) ) ;
-    camera_y = itofix( LOCINT32( mod_m7, camera, M7_COORDY ) ) ;
+    camera_x = itofix( LOCINT32( mod_m7, camera, COORDX ) ) ;
+    camera_y = itofix( LOCINT32( mod_m7, camera, COORDY ) ) ;
     camera_z = itofix( dat->height ) ;
 
     RESOLXY( mod_m7, camera, camera_x, camera_y );
@@ -767,12 +767,12 @@ static void draw_mode7( int n, REGION * clip )
     {
         if (
             (
-                ( LOCDWORD( mod_m7, i, M7_STATUS ) & ~STATUS_WAITING_MASK ) == STATUS_RUNNING ||
-                ( LOCDWORD( mod_m7, i, M7_STATUS ) & ~STATUS_WAITING_MASK ) == STATUS_FROZEN
+                ( LOCDWORD( mod_m7, i, STATUS ) & ~STATUS_WAITING_MASK ) == STATUS_RUNNING ||
+                ( LOCDWORD( mod_m7, i, STATUS ) & ~STATUS_WAITING_MASK ) == STATUS_FROZEN
             )
-            && LOCDWORD( mod_m7, i, M7_CTYPE ) == C_M7 )
+            && LOCDWORD( mod_m7, i, CTYPE ) == C_M7 )
         {
-            if ( LOCDWORD( mod_m7, i, M7_CNUMBER ) && !( LOCDWORD( mod_m7, i, M7_CNUMBER ) & ( 1 << n ) ) )
+            if ( LOCDWORD( mod_m7, i, CNUMBER ) && !( LOCDWORD( mod_m7, i, CNUMBER ) & ( 1 << n ) ) )
             {
                 i = i->next ;
                 continue ;
@@ -786,8 +786,8 @@ static void draw_mode7( int n, REGION * clip )
 
             /* Averigua la distancia a la cámara */
 
-            x = LOCINT32( mod_m7, i, M7_COORDX ) ;
-            y = LOCINT32( mod_m7, i, M7_COORDY ) ;
+            x = LOCINT32( mod_m7, i, COORDX ) ;
+            y = LOCINT32( mod_m7, i, COORDY ) ;
 
             RESOLXY( mod_m7, i, x, y );
 
@@ -816,8 +816,8 @@ static void draw_mode7( int n, REGION * clip )
 
             if ( LOCINT32( mod_m7, proclist[nproc], DISTANCE_1 ) <= 0 ) continue ;
 
-            base_x = itofix( LOCINT32( mod_m7, proclist[nproc], M7_COORDX ) ) ;
-            base_y = itofix( LOCINT32( mod_m7, proclist[nproc], M7_COORDY ) ) ;
+            base_x = itofix( LOCINT32( mod_m7, proclist[nproc], COORDX ) ) ;
+            base_y = itofix( LOCINT32( mod_m7, proclist[nproc], COORDY ) ) ;
             base_z = itofix( LOCINT32( mod_m7, proclist[nproc], HEIGHT ) ) ;
 
             RESOLXYZ( mod_m7, proclist[nproc], base_x, base_y, base_z );
@@ -835,10 +835,10 @@ static void draw_mode7( int n, REGION * clip )
             bmp_x = ( long )( -(( float )dat->focus /*FOCAL_DIST*/ * fixtof( x ) / fixtof( y ) ) * ( float )width / ( float ) dat->focus ) ;
             bmp_y = ( long )( -(( float )dat->focus /*FOCAL_DIST*/ * fixtof( z ) / fixtof( y ) ) * ( float )height / ( float ) dat->focus ) ;
 
-            x = LOCINT32( mod_m7, proclist[nproc], M7_GRAPHSIZE ) ;
-            LOCINT32( mod_m7, proclist[nproc], M7_GRAPHSIZE ) = dat->focus * 8 / fixtof( LOCDWORD( mod_m7, proclist[nproc], DISTANCE_1 ) ) ;
+            x = LOCINT32( mod_m7, proclist[nproc], GRAPHSIZE ) ;
+            LOCINT32( mod_m7, proclist[nproc], GRAPHSIZE ) = dat->focus * 8 / fixtof( LOCDWORD( mod_m7, proclist[nproc], DISTANCE_1 ) ) ;
             draw_instance_at( proclist[nproc], mode7->region, mode7->region->x + width / 2  + bmp_x, mode7->region->y + height / 2 + bmp_y, mode7->dest ) ;
-            LOCINT32( mod_m7, proclist[nproc], M7_GRAPHSIZE ) = x ;
+            LOCINT32( mod_m7, proclist[nproc], GRAPHSIZE ) = x ;
         }
     }
 }

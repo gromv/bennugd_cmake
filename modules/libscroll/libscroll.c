@@ -63,14 +63,14 @@ scrolldata scrolls[ 10 ] ;
 /* Locals */
 
 enum {
-    SCROLL_CTYPE = 0,
-    SCROLL_CNUMBER,
+    CTYPE = 0,
+    CNUMBER,
     PROCESS_ID,
-    SCROLL_STATUS,
-    SCROLL_COORDX,
-    SCROLL_COORDY,
-    SCROLL_COORDZ,
-    SCROLL_RESOLUTION
+    STATUS,
+    COORDX,
+    COORDY,
+    COORDZ,
+    RESOLUTION
 };
 
 /* Globals */
@@ -266,8 +266,8 @@ void scroll_update( int n )
 
         /* Forzar a que esté en el centro de la ventana */
 
-        cx = LOCDWORD( libscroll, scrolls[n].camera, SCROLL_COORDX ) ;
-        cy = LOCDWORD( libscroll, scrolls[n].camera, SCROLL_COORDY ) ;
+        cx = LOCDWORD( libscroll, scrolls[n].camera, COORDX ) ;
+        cy = LOCDWORD( libscroll, scrolls[n].camera, COORDY ) ;
 
         RESOLXY( libscroll, scrolls[n].camera, cx, cy );
 
@@ -326,7 +326,7 @@ static int compare_instances( const void * ptr1, const void * ptr2 )
     const INSTANCE * i1 = *( const INSTANCE ** )ptr1 ;
     const INSTANCE * i2 = *( const INSTANCE ** )ptr2 ;
 
-    int ret = LOCDWORD( libscroll, i2, SCROLL_COORDZ ) - LOCDWORD( libscroll, i1, SCROLL_COORDZ );
+    int ret = LOCDWORD( libscroll, i2, COORDZ ) - LOCDWORD( libscroll, i1, COORDZ );
 
     return !ret ? LOCDWORD( libscroll, i1, PROCESS_ID ) - LOCDWORD( libscroll, i2, PROCESS_ID ) : ret;
 }
@@ -425,14 +425,14 @@ void scroll_draw( int n, REGION * clipping )
     proclist_count = 0 ;
     while ( i )
     {
-        if ( LOCDWORD( libscroll, i, SCROLL_CTYPE ) == C_SCROLL &&
+        if ( LOCDWORD( libscroll, i, CTYPE ) == C_SCROLL &&
                 (
-                    (( status = LOCDWORD( libscroll, i, SCROLL_STATUS ) ) & ~STATUS_WAITING_MASK ) == STATUS_RUNNING ||
+                    (( status = LOCDWORD( libscroll, i, STATUS ) ) & ~STATUS_WAITING_MASK ) == STATUS_RUNNING ||
                     ( status & ~STATUS_WAITING_MASK ) == STATUS_FROZEN
                 )
            )
         {
-            if ( LOCDWORD( libscroll, i, SCROLL_CNUMBER ) && !( LOCDWORD( libscroll, i, SCROLL_CNUMBER ) & ( 1 << n ) ) )
+            if ( LOCDWORD( libscroll, i, CNUMBER ) && !( LOCDWORD( libscroll, i, CNUMBER ) & ( 1 << n ) ) )
             {
                 i = i->next ;
                 continue ;
@@ -459,8 +459,8 @@ void scroll_draw( int n, REGION * clipping )
 
         for ( nproc = 0 ; nproc < proclist_count ; nproc++ )
         {
-            x = LOCDWORD( libscroll, proclist[nproc], SCROLL_COORDX ) ;
-            y = LOCDWORD( libscroll, proclist[nproc], SCROLL_COORDY ) ;
+            x = LOCDWORD( libscroll, proclist[nproc], COORDX ) ;
+            y = LOCDWORD( libscroll, proclist[nproc], COORDY ) ;
 
             RESOLXY( libscroll, proclist[nproc], x, y );
 

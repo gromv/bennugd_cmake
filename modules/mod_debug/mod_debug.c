@@ -73,7 +73,7 @@ enum {
     FATHER,
     BIGBRO,
     SON,
-    DEBUG_STATUS
+    STATUS
 };
 
 enum {
@@ -1424,8 +1424,8 @@ static void console_instance_dump( INSTANCE * father, int indent )
     while ( n && ( n++ < 4 ) ) strcat( line, " " ) ;
     sprintf( line + strlen( line ), "%7d", nid ) ;
 
-    if ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
-    switch ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & ~STATUS_WAITING_MASK )
+    if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
+    switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
     {
         case STATUS_DEAD        :   strcat( line, "[D]" ) ; break ;
         case STATUS_KILLED      :   strcat( line, "[K]" ) ; break ;
@@ -1473,8 +1473,8 @@ static void console_instance_dump( INSTANCE * father, int indent )
             while ( n && ( n++ < 4 ) ) strcat( line, " " ) ;
             sprintf( line + strlen( line ), "%7d", nid ) ;
 
-            if ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
-            switch ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & ~STATUS_WAITING_MASK )
+            if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( line, "[W]" );
+            switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
             {
                 case STATUS_DEAD        :   strcat( line, "[D]" ) ; break ;
                 case STATUS_KILLED      :   strcat( line, "[K]" ) ; break ;
@@ -1532,10 +1532,10 @@ static void console_instance_dump_all_brief()
     for ( i = first_instance ; i ; i = i->next )
     {
         status[0] = '\0';
-        if ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK )
+        if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK )
             strcpy( status, "¬08wait¬07+" );
 
-        switch ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & ~STATUS_WAITING_MASK )
+        switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
         {
             case STATUS_DEAD        :   strcat( status, "¬06dead¬07    " ) ; break ;
             case STATUS_KILLED      :   strcat( status, "¬02killed¬07  " ) ; break ;
@@ -1544,7 +1544,7 @@ static void console_instance_dump_all_brief()
             case STATUS_RUNNING     :   strcat( status, "¬12running¬07 " ) ; break ;
         }
 
-        if ( !( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) )
+        if ( !( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) )
             strcat( status, "     " );
 
 
@@ -1645,8 +1645,8 @@ static void show_list_window()
                 }
 
                 status[0] = '\0';
-                if ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) strcat( status, "[W]" );
-                switch ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & ~STATUS_WAITING_MASK )
+                if ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) strcat( status, "[W]" );
+                switch ( LOCDWORD( mod_debug, i, STATUS ) & ~STATUS_WAITING_MASK )
                 {
                     case STATUS_DEAD        :   strcat( status, "[D]" ) ; break ;
                     case STATUS_KILLED      :   strcat( status, "[K]" ) ; break ;
@@ -2256,19 +2256,19 @@ static void console_do( const char * command )
             switch ( act )
             {
                 case 'K':
-                    LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
+                    LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
                     break;
 
                 case 'W':
-                    LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_RUNNING ;
+                    LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_RUNNING ;
                     break ;
 
                 case 'S':
-                    LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_SLEEPING ;
+                    LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_SLEEPING ;
                     break ;
 
                 case 'F':
-                    LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_FROZEN ;
+                    LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_FROZEN ;
                     break;
             }
             strcpy( action, oaction );
@@ -2293,19 +2293,19 @@ static void console_do( const char * command )
         switch ( act )
         {
             case 'K':
-                LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
+                LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_KILLED ;
                 break;
 
             case 'W':
-                LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_RUNNING ;
+                LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_RUNNING ;
                 break ;
 
             case 'S':
-                LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_SLEEPING ;
+                LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_SLEEPING ;
                 break ;
 
             case 'F':
-                LOCDWORD( mod_debug, i, DEBUG_STATUS ) = ( LOCDWORD( mod_debug, i, DEBUG_STATUS ) & STATUS_WAITING_MASK ) | STATUS_FROZEN ;
+                LOCDWORD( mod_debug, i, STATUS ) = ( LOCDWORD( mod_debug, i, STATUS ) & STATUS_WAITING_MASK ) | STATUS_FROZEN ;
                 break;
         }
         console_printf( "¬07OK" );

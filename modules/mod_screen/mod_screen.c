@@ -45,8 +45,8 @@
 /* --------------------------------------------------------------------------- */
 
 enum {
-    SCREEN_CTYPE = 0,
-    SCREEN_CNUMBER
+    CTYPE = 0,
+    CNUMBER
 };
 
 enum {
@@ -100,7 +100,7 @@ static int modscreen_out_region( INSTANCE * my, int * params )
 
     instance_get_bbox( proc, gr, &bbox );
 
-    if ( LOCDWORD( mod_screen, proc, SCREEN_CTYPE ) == C_SCROLL )
+    if ( LOCDWORD( mod_screen, proc, CTYPE ) == C_SCROLL )
     {
         SCROLL_EXTRA_DATA * data;
         scrolldata  * scroll;
@@ -108,7 +108,7 @@ static int modscreen_out_region( INSTANCE * my, int * params )
 
         if ( GLOEXISTS( mod_screen, SCROLLS ) )
         {
-            int cnumber = LOCDWORD( mod_screen, proc, SCREEN_CNUMBER );
+            int cnumber = LOCDWORD( mod_screen, proc, CNUMBER );
             if ( !cnumber ) cnumber = 0xFFFFFFFF ;
 
             for ( i = 0 ; i < 10 ; i++ )
